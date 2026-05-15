@@ -13,12 +13,15 @@ ChatHistory = list[ChatMessageDict]
 MODEL_OPTIONS: list[str] = [
     "gemini-1.5-flash-002",
     "gemini-1.5-pro-002",
-    "gemini-1.5-flash",
-    "gemini-1.5-pro",
-    "gemini-2.0-flash-lite",
     "gemini-2.0-flash",
-    "gemini-2.5-flash-preview-05-20",
-    "gemini-2.5-pro-preview-05-06",
+    "gemini-2.0-flash-lite",
+    "gemini-2.5-flash",
+    "gemini-2.5-flash-lite",
+    "gemini-2.5-pro",
+    "gemini-3.1-flash-lite",
+    "gemini-3.1-flash-lite-preview",
+    "gemini-3-flash-preview",
+    "gemini-3.1-pro-preview",
 ]
 
 assistant = RAGAssistant()
@@ -26,13 +29,13 @@ startup_status: str = assistant.prepare_index()
 
 
 def _resolve_server_port(default_port: int = 7860) -> int:
-    """Return an available TCP port, preferring env or default values."""
+    """Return an available TCP port for local Gradio runs."""
 
     def _is_port_free(port: int) -> bool:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             try:
-                sock.bind(("127.0.0.1", port))
+                sock.bind(("0.0.0.0", port))
             except OSError:
                 return False
             return True
@@ -47,7 +50,7 @@ def _resolve_server_port(default_port: int = 7860) -> int:
         return default_port
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.bind(("127.0.0.1", 0))
+        sock.bind(("0.0.0.0", 0))
         return int(sock.getsockname()[1])
 
 
@@ -153,11 +156,74 @@ def validate_api_key(api_key: str, selected_model: str) -> str:
         return f"Error al validar API key/modelo. Detalle: {exc}"
 
 
-with gr.Blocks(title="Proyecto Final - RAG con Gradio") as demo:
+POKEMON_CSS = """
+/* ---- Pokemon background ---- */
+body {
+    background-image:
+        url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/906.png'),
+        url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/935.png'),
+        url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/963.png'),
+        url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/988.png');
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    background-position: left 10px top 10px, right 10px top 10px, left 10px bottom 10px, right 10px bottom 10px;
+    background-size: 130px, 130px, 130px, 130px;
+    background-color: #1a1a2e;
+}
+/* main content panel: dark semi-transparent card */
+.gradio-container {
+    background-color: rgba(20, 20, 40, 0.93) !important;
+    color: #f0f0f0 !important;
+    border-radius: 12px;
+}
+/* labels and general text */
+label, .label-wrap, span, p, .prose, .output-markdown {
+    color: #e8e8e8 !important;
+}
+/* input/textarea boxes */
+input, textarea {
+    background-color: #2a2a4a !important;
+    color: #f0f0f0 !important;
+    border: 1px solid #4a4a7a !important;
+}
+/* chatbot bubbles */
+.message.user {
+    background-color: #3d5a80 !important;
+    color: #ffffff !important;
+}
+.message.bot {
+    background-color: #293241 !important;
+    color: #e0e0e0 !important;
+}
+/* buttons */
+button.primary, button.secondary {
+    background-color: #c62828 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+button.primary:hover, button.secondary:hover {
+    background-color: #e53935 !important;
+}
+/* dropdown */
+.wrap-inner {
+    background-color: #2a2a4a !important;
+    color: #f0f0f0 !important;
+}
+/* title */
+#pokemon-title {
+    text-align: center;
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #ffcb05;
+    text-shadow: 2px 2px 4px #000000, -1px -1px 3px #c62828;
+    padding: 12px 0 4px 0;
+}
+"""
+
+with gr.Blocks(title="Asistente RAG - Gen 10 Pokemon") as demo:
     gr.Markdown(
         """
-# Asistente RAG con Gradio
-Haz preguntas sobre tu dataset indexado en `data/raw/`.
+<div id="pokemon-title">⚡ Asistente RAG con Gradio para informacion sobre la Generacion 10 de Pokemon ⚡</div>
+<p style="text-align:center;color:#555;">Haz preguntas sobre el dataset de la decima generacion indexado en <code>data/raw/</code>.</p>
 """.strip()
     )
     gr.Markdown(f"Estado de indice: {startup_status}")
@@ -172,26 +238,14 @@ Haz preguntas sobre tu dataset indexado en `data/raw/`.
             label="Modelo Gemini (temporal para esta sesion)",
             choices=MODEL_OPTIONS,
             value=assistant.active_model_name if assistant.active_model_name in MODEL_OPTIONS else MODEL_OPTIONS[0],
-            allow_custom_value=True,
-            info="La lista muestra modelos sugeridos. Puedes escribir otro modelo manualmente.",
+            allow_custom_value=False,
+            info="Selecciona un modelo de la lista fija.",
         )
 
     chatbot = gr.Chatbot(height=460)
     question_input = gr.Textbox(label="Tu pregunta", placeholder="Escribe tu pregunta sobre el dataset...")
-    validate_btn = gr.Button("Validar API Key y Modelos")
-    validation_status = gr.Textbox(
-        label="Estado de validacion",
-        value="Aun no validado.",
-        interactive=False,
-    )
     send_btn = gr.Button("Enviar")
     clear_btn = gr.Button("Limpiar chat")
-
-    validate_btn.click(
-        fn=validate_api_key,
-        inputs=[api_key_input, model_selector],
-        outputs=[validation_status],
-    )
 
     send_btn.click(
         fn=answer_question,
@@ -205,10 +259,25 @@ Haz preguntas sobre tu dataset indexado en `data/raw/`.
     )
     clear_btn.click(lambda: [], outputs=[chatbot])
 
+    gr.Markdown("### Validacion")
+    validate_btn = gr.Button("Validar API Key y Modelos")
+    validation_status = gr.Textbox(
+        label="Estado de validacion",
+        value="Aun no validado.",
+        interactive=False,
+    )
+
+    validate_btn.click(
+        fn=validate_api_key,
+        inputs=[api_key_input, model_selector],
+        outputs=[validation_status],
+    )
+
 
 if __name__ == "__main__":
     server_port = _resolve_server_port()
     demo.launch(
+        css=POKEMON_CSS,
         server_name="0.0.0.0",
         server_port=server_port,
         share=False,
