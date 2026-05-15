@@ -2,6 +2,7 @@
 
 import os
 import socket
+import inspect
 from typing import Any
 
 import gradio as gr
@@ -26,6 +27,14 @@ MODEL_OPTIONS: list[str] = [
 
 assistant = RAGAssistant()
 startup_status: str = assistant.prepare_index()
+
+
+def _supports_parameter(callable_obj: Any, parameter_name: str) -> bool:
+    """Return True when a callable exposes a specific named parameter."""
+    try:
+        return parameter_name in inspect.signature(callable_obj).parameters
+    except (TypeError, ValueError):
+        return False
 
 
 def _resolve_server_port(default_port: int = 7860) -> int:
@@ -219,7 +228,11 @@ button.primary:hover, button.secondary:hover {
 }
 """
 
-with gr.Blocks(title="Asistente RAG - Gen 10 Pokemon") as demo:
+blocks_kwargs: dict[str, Any] = {"title": "Asistente RAG - Gen 10 Pokemon"}
+if _supports_parameter(gr.Blocks.__init__, "css"):
+    blocks_kwargs["css"] = POKEMON_CSS
+
+with gr.Blocks(**blocks_kwargs) as demo:
     gr.Markdown(
         """
 <div id="pokemon-title">⚡ Asistente RAG con Gradio para informacion sobre la Generacion 10 de Pokemon ⚡</div>
@@ -242,7 +255,10 @@ with gr.Blocks(title="Asistente RAG - Gen 10 Pokemon") as demo:
             info="Selecciona un modelo de la lista fija.",
         )
 
-    chatbot = gr.Chatbot(height=460)
+    if _supports_parameter(gr.Chatbot.__init__, "type"):
+        chatbot = gr.Chatbot(height=460, type="messages")
+    else:
+        chatbot = gr.Chatbot(height=460)
     question_input = gr.Textbox(label="Tu pregunta", placeholder="Escribe tu pregunta sobre el dataset...")
     send_btn = gr.Button("Enviar")
     clear_btn = gr.Button("Limpiar chat")
@@ -276,10 +292,13 @@ with gr.Blocks(title="Asistente RAG - Gen 10 Pokemon") as demo:
 
 if __name__ == "__main__":
     server_port = _resolve_server_port()
-    demo.launch(
-        css=POKEMON_CSS,
-        server_name="0.0.0.0",
-        server_port=server_port,
-        share=False,
-        prevent_thread_lock=False,
-    )
+    launch_kwargs: dict[str, Any] = {
+        "server_name": "0.0.0.0",
+        "server_port": server_port,
+        "share": False,
+        "prevent_thread_lock": False,
+    }
+    if "css" not in blocks_kwargs and _supports_parameter(demo.launch, "css"):
+        launch_kwargs["css"] = POKEMON_CSS
+
+    demo.launch(**launch_kwargs)
