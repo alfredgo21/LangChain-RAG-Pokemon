@@ -1,0 +1,100 @@
+ID: POK-001-DESC
+Título: Introducción a la Región de Aurelia
+Contenido: La región de Aurelia se caracteriza por sus archipiélagos flotantes y su clima altamente saturado de partículas de "Aura Prístina". A diferencia de otras regiones, los Pokémon en Aurelia no evolucionan solo por nivel o piedras, sino mediante la acumulación de Resonancia. La capital, Ciudad Cénit, es el centro de investigación donde el Profesor Olmo estudia cómo esta energía afecta el ADN Pokémon.
+
+ID: POK-002-MECH
+Título: Mecánica de Sincronía Elemental
+Contenido: La Sincronía Elemental es una transformación temporal en combate que permite a un Pokémon fusionar sus movimientos con el entorno. Para activarla, el entrenador debe poseer un Cristal de Nexo.
+
+Efecto: Aumenta el daño de movimientos del mismo tipo que el terreno actual en un 50%.
+
+Limitación: Solo dura 3 turnos y agota la barra de energía del Cristal, requiriendo 100 pasos para recargarse.
+
+ID: POK-003-SPEC
+Título: Entrada de la Pokédex #1005 - Floraptor
+Contenido:
+
+Especie: Pokémon Raptor Pétalo.
+
+Tipo: Planta / Volador.
+
+Habilidad Especial: Viento Clorofílico (Aumenta la Velocidad si hay clima soleado o si el campo está cubierto de hierba).
+
+Descripción: Floraptor utiliza sus alas de hoja para planear entre los bosques flotantes de Aurelia. Sus garras desprenden una fragancia que paraliza a los oponentes si estos realizan un ataque de contacto.
+
+ID: POK-004-ITEM
+Título: Objeto Equipable: Fragmento de Resonancia
+Contenido: Un cristal opaco encontrado en las cuevas de Aurelia. Cuando un Pokémon lo lleva equipado, la ganancia de puntos de Resonancia después de cada combate se multiplica por 1.5. Es un objeto fundamental para alcanzar la evolución final de los iniciales de esta región.
+
+ID: POK-005-LORE
+Título: La Leyenda de Eternis, el Pokémon Núcleo
+Contenido: Se dice que Eternis fue el arquitecto de las islas flotantes. Es un Pokémon de tipo Dragón / Cósmico. Según los antiguos grabados de las Ruinas de Éter, Eternis entrará en un estado de "Colapso" si el equilibrio entre los tipos Elemental y Acero se rompe. Su movimiento firma es Big Bang Singular, que cambia el tipo del oponente a "Normal" de forma permanente durante la batalla.
+
+ID: POK-006-SPEC
+Título: Entrada de la Pokédex #1008 - Dracovolt
+Contenido:
+
+Especie: Pokémon Bobina Dragón.
+
+Tipo: Eléctrico / Dragón.
+
+Descripción: Habita en las nubes de tormenta que rodean las islas inferiores. Su cuerpo genera electricidad estática al rozar las partículas de Aura Prístina. Se dice que un solo Dracovolt puede suministrar energía a Ciudad Cénit durante una semana entera.
+
+ID: POK-007-EVO
+Título: Método Evolutivo: "Sincronía de Vínculo"
+Contenido: A diferencia de la evolución tradicional, Pokémon como Evee en la región de Aurelia requieren el estado de "Sincronía Elemental" activo al finalizar un combate contra un Líder de Gimnasio para evolucionar en sus nuevas formas regionales: Aureon (Tipo Cósmico) o Galeon (Tipo Volador).
+
+ID: POK-008-LOC
+Título: Localización: Fosa del Silencio
+Contenido: Una zona de baja presión situada bajo las islas flotantes. Aquí, la energía de Resonancia es nula, lo que impide que los Pokémon utilicen movimientos de tipo Hada o Psíquico. Es el único lugar donde se pueden encontrar ejemplares salvajes de Metang de acero puro.
+
+ID: POK-009-CHAR
+Título: Biografía: Líder de Gimnasio "Sora"
+Contenido: Sora es la líder del gimnasio de tipo Volador en Pueblo Brisa. Es conocida por ser la primera entrenadora en perfeccionar el uso del Cristal de Nexo sin agotar la energía del Pokémon. Su equipo principal consiste en tres Floraptor y un Dracovolt variocolor.
+
+ID: POK-010-MOVE
+Título: Movimiento Nuevo: Pulso Estelar
+Contenido:
+
+Tipo: Cósmico.
+
+Categoría: Especial.
+
+Potencia: 80.
+
+Efecto: Tiene un 30% de probabilidad de reducir la Precisión del oponente. Si el usuario está en estado de Sincronía Elemental, el movimiento nunca falla y golpea a ambos oponentes en combates dobles.
+
+ID: POK-011-CLIM
+Título: Condición Climática: Lluvia Áurea
+Contenido: Un fenómeno meteorológico exclusivo de Aurelia. Durante la Lluvia Áurea, todos los Pokémon de tipo Planta y Eléctrico recuperan un 1/16 de su salud máxima al final de cada turno. Además, los movimientos de tipo Veneno ven reducida su potencia a la mitad.
+
+ID: POK-012-ITEM
+Título: Objeto Clave: Sonda de Resonancia
+Contenido: Dispositivo desarrollado por el Profesor Olmo. Permite al entrenador detectar "Nodos de Energía" en el mapa. Al interactuar con un Nodo, el Cristal de Nexo se recarga instantáneamente sin necesidad de caminar los 100 pasos reglamentarios.
+
+ID: POK-013-SPEC
+Título: Entrada de la Pokédex #1012 - Iron-Thorn (Forma Aurelia)
+Contenido:
+
+Especie: Pokémon Cactus Blindado.
+
+Tipo: Acero / Planta.
+
+Habilidad: Pararrayos.
+
+Descripción: A diferencia de sus parientes de otras regiones, su armadura está hecha de una aleación de cobre y resina de árbol, lo que lo hace extremadamente resistente a la oxidación en el clima húmedo de los archipiélagos.
+
+ID: POK-014-LORE
+Título: El Mito de los "Errantes del Vacío"
+Contenido: Fragmentos de textos antiguos mencionan a tres Pokémon legendarios menores: Ignis, Aqua y Terra. Se dice que estos tres protegen los pilares que mantienen las islas de Aurelia a flote. Si un entrenador captura a los tres, se desbloquea el acceso al Altar de Eternis.
+
+ID: POK-015-MECH
+Título: Interacción de Tipos: El Tipo Cósmico
+Contenido: El tipo Cósmico ha sido introducido para equilibrar el meta de Aurelia.
+
+Efectivo contra: Dragón, Hada y Lucha.
+
+Débil ante: Acero, Hielo y el mismo tipo Cósmico.
+
+Inmunidad: No puede ser afectado por movimientos que alteren el clima.
+
